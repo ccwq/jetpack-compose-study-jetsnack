@@ -58,10 +58,12 @@ fun rememberJetsnackAppState(
     snackbarManager: SnackbarManager = SnackbarManager,
     resources: Resources = resources(),
     coroutineScope: CoroutineScope = rememberCoroutineScope()
-) =
+): JetsnackAppState =
     remember(scaffoldState, navController, snackbarManager, resources, coroutineScope) {
         JetsnackAppState(scaffoldState, navController, snackbarManager, resources, coroutineScope)
     }
+
+
 
 /**
  * Responsible for holding state related to [JetsnackApp] and containing UI-related logic.
@@ -96,11 +98,18 @@ class JetsnackAppState(
     // BottomBar state source of truth
     // ----------------------------------------------------------
 
+
+    // 底部tab的定义
     val bottomBarTabs = HomeSections.values()
+
+    // router定义
     private val bottomBarRoutes = bottomBarTabs.map { it.route }
 
     // Reading this attribute will cause recompositions when the bottom bar needs shown, or not.
+    // 当底部栏需要显示或不显示时，读取此属性将导致重新组合
     // Not all routes need to show the bottom bar.
+    // 并非所有路线都需要显示底栏。
+    // - 也就是说只有在HomeSections中定义的4个路由才有底栏
     val shouldShowBottomBar: Boolean
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination?.route in bottomBarRoutes
@@ -122,13 +131,16 @@ class JetsnackAppState(
                 launchSingleTop = true
                 restoreState = true
                 // Pop up backstack to the first destination and save state. This makes going back
+                // 弹出 backstack 到第一个目的地并保存状态。这使得回去
                 // to the start destination when pressing back in any other bottom tab.
+                // 在任何其他底部选项卡中按回时到起始目的地
                 popUpTo(findStartDestination(navController.graph).id) {
                     saveState = true
                 }
             }
         }
     }
+
 
     fun navigateToSnackDetail(snackId: Long, from: NavBackStackEntry) {
         // In order to discard duplicated navigation events, we check the Lifecycle

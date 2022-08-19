@@ -119,11 +119,15 @@ fun JetsnackBottomBar(
         color = color,
         contentColor = contentColor
     ) {
+
+        // 动画缓动参数设置
         val springSpec = SpringSpec<Float>(
             // Determined experimentally
             stiffness = 800f,
             dampingRatio = 0.8f
         )
+
+
         JetsnackBottomNavLayout(
             selectedIndex = currentSection.ordinal,
             itemCount = routes.size,
@@ -178,7 +182,11 @@ fun JetsnackBottomBar(
 private fun JetsnackBottomNavLayout(
     selectedIndex: Int,
     itemCount: Int,
+
+    // 动画缓动参数设置
     animSpec: AnimationSpec<Float>,
+
+
     indicator: @Composable BoxScope.() -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
@@ -189,6 +197,7 @@ private fun JetsnackBottomNavLayout(
             Animatable(if (i == selectedIndex) 1f else 0f)
         }
     }
+
     selectionFractions.forEachIndexed { index, selectionFraction ->
         val target = if (index == selectedIndex) 1f else 0f
         LaunchedEffect(target, animSpec) {

@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.SnackbarHost
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -71,6 +72,12 @@ fun JetsnackApp() {
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun DefaultPreview() {
+    JetsnackApp()
 }
 
 private fun NavGraphBuilder.jetsnackNavGraph(
